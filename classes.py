@@ -43,53 +43,45 @@ class AudioPlayerApp:
 
     def create_widgets(self):
         # Метка для отображения текущего файла
-        self.file_label = tk.Label(self.root, text="Файл не выбран", wraplength=380, justify="center")
+        self.file_label = tk.Label(self.root, text = "Файл не выбран", wraplength = 380, justify = "center")
         self.file_label.pack(pady=10)
 
         # Ползунок для прогресса
-        self.progress_scale = tk.Scale(
-            self.root,
-            from_=0,
-            to=100,
-            orient="horizontal",  # Горизонтальный ползунок
-            length=350,  # Ширина ползунка
-            state="disabled",  # Отключён по умолчанию
-        )
-        self.progress_scale.pack(pady=10)
+        self.progress_scale = tk.Scale(self.root, from_= 0, to = 100, orient = "horizontal", length = 350,  state = "disabled")
+        self.progress_scale.pack(pady = 10)
 
         # Кнопка воспроизведения
-        self.play_button = tk.Button(self.root, text="▶️ Воспроизвести", command=self.play_audio, state=tk.DISABLED)
-        self.play_button.pack(pady=10)
+        self.play_button = tk.Button(self.root, text = "▶️ Воспроизвести", command = self.play_audio, state = tk.DISABLED)
+        self.play_button.pack(pady = 10)
 
         # Кнопка паузы
-        self.pause_button = tk.Button(self.root, text="⏸️ Пауза", command=self.pause_audio, state=tk.DISABLED)
-        self.pause_button.pack(pady=10)
+        self.pause_button = tk.Button(self.root, text = "⏸️ Пауза", command = self.pause_audio, state = tk.DISABLED)
+        self.pause_button.pack(pady = 10)
 
         # Кнопка остановки
-        self.stop_button = tk.Button(self.root, text="⏹️ Остановить", command=self.stop_audio, state=tk.DISABLED)
-        self.stop_button.pack(pady=10)
+        self.stop_button = tk.Button(self.root, text = "⏹️ Остановить", command = self.stop_audio, state = tk.DISABLED)
+        self.stop_button.pack(pady = 10)
 
     def load_audio(self):
         try:
             file_path = filedialog.askopenfilename(
-                filetypes=[("Audio Files", "*.mp3 *.wav *.ogg"), ("All Files", "*.*")]
-            )
+                filetypes = [("Audio Files", "*.mp3 *.wav *.ogg"), ("All Files", "*.*")])
             if not file_path:
                 raise FileLoadError("Файл не был выбран.")
             self.current_file = file_path
 
             # Включаем кнопки
-            self.play_button.config(state=tk.NORMAL)
-            self.stop_button.config(state=tk.NORMAL)
-            self.pause_button.config(state=tk.NORMAL)
+            self.play_button.config(state = tk.NORMAL)
+            self.stop_button.config(state = tk.NORMAL)
+            self.pause_button.config(state = tk.NORMAL)
 
             # Обновляем метку файла
-            self.file_label.config(text=f"Текущий файл: {file_path}")
+            self.file_label.config(text = f"Текущий файл: {file_path}")
 
             # Устанавливаем длину трека
             duration = self.get_audio_duration()
             if duration > 0:
-                self.progress_scale.config(state="normal", from_=0, to=duration // 1000)  # Максимум в секундах
+                self.progress_scale.config(state = "normal", from_= 0, to = duration // 1000)  # Максимум в секундах
 
             messagebox.showinfo("Файл загружен", f"Файл успешно загружен:\n{file_path}")
         except FileLoadError as e:
@@ -117,7 +109,7 @@ class AudioPlayerApp:
                 self.is_paused = False
             elif not pygame.mixer.music.get_busy():  # Если музыка не играет
                 pygame.mixer.music.load(self.current_file)
-                pygame.mixer.music.play(loops=0, start=self.paused_position / 1000)  # С учетом паузы
+                pygame.mixer.music.play(loops = 0, start = self.paused_position / 1000)  # С учетом паузы
                 self.paused_position = 0  # Сбрасываем паузу
 
             self.update_progress()  # Запускаем обновление прогресса
