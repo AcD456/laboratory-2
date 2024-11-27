@@ -8,6 +8,7 @@ from exceptions import FileLoadError, PlaybackError, StopPlaybackError
 class AudioPlayerApp:
     def __init__(self, root):
 
+
         self.root = root
         self.root.title("Audio Player")
         self.root.geometry("400x300")
@@ -15,6 +16,7 @@ class AudioPlayerApp:
         self.root.iconbitmap("icon.ico")
         pygame.mixer.init()
 
+        self.file_label = None
         self.current_file = None
         self.stop_button = None
         self.play_button = None
@@ -40,6 +42,9 @@ class AudioPlayerApp:
         menu.add_cascade(label = "Настройки", menu = settings_menu)
 
     def create_widgets(self):
+        self.file_label = tk.Label(self.root, text="Файл не выбран", wraplength=380, justify="center")
+        self.file_label.pack(pady=10)
+
         self.play_button = tk.Button(self.root, text = "▶️ Воспроизвести", command = self.play_audio, state = tk.DISABLED)
         self.play_button.pack(pady = 10)
 
@@ -57,6 +62,9 @@ class AudioPlayerApp:
             if not file_path:
                 raise FileLoadError("Файл не был выбран.")
             self.current_file = file_path
+
+            file_name = file_path.split("/")[-1]
+            self.file_label.config(text=f"Текущий файл: {file_name}")
             #unlock widgets
             self.play_button.config(state = tk.NORMAL)
             self.stop_button.config(state = tk.NORMAL)
