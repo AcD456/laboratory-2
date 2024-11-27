@@ -11,7 +11,8 @@ class AudioPlayerApp:
         self.root = root
         self.root.title("Audio Player")
         self.root.geometry("400x300")
-
+        self.root.resizable(False, False)
+        self.root.iconbitmap("icon.ico")
         pygame.mixer.init()
 
         self.current_file = None
