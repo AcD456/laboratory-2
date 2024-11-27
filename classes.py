@@ -93,7 +93,6 @@ class AudioPlayerApp:
                     self.paused_position = pygame.mixer.music.get_pos()  # Сохраняем текущую позицию в миллисекундах
                     pygame.mixer.music.pause()  # Ставим на паузу
                     self.is_paused = True  # Устанавливаем флаг паузы
-                    messagebox.showinfo("Пауза", "Воспроизведение приостановлено.")
                 else:
                     raise StopPlaybackError("Нет активного воспроизведения для паузы.")
             else:
